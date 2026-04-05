@@ -251,6 +251,57 @@
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
+    /* SUCCESS MODAL OVERLAY */
+    .modal-overlay{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;pointer-events:none;transition:opacity .35s ease}
+    .modal-overlay.active{opacity:1;pointer-events:all}
+    .modal-backdrop{position:absolute;inset:0;background:rgba(6,5,8,.88);backdrop-filter:blur(12px)}
+    .modal-box{position:relative;z-index:1;width:100%;max-width:520px;background:rgba(14,12,18,.95);border:1px solid var(--border-gold);border-radius:var(--r-xl);overflow:hidden;transform:translateY(40px) scale(.96);transition:transform .4s cubic-bezier(.22,1,.36,1);box-shadow:0 40px 80px rgba(0,0,0,.7),0 0 60px rgba(201,168,76,.08)}
+    .modal-overlay.active .modal-box{transform:translateY(0) scale(1)}
+
+    /* top accent bar */
+    .modal-bar{height:3px;background:linear-gradient(90deg,var(--gold),var(--neon),var(--gold));background-size:200% 100%;animation:shimmer 2.5s linear infinite}
+    @keyframes shimmer{0%{background-position:0 0}100%{background-position:200% 0}}
+
+    .modal-inner{padding:2.6rem 2.4rem 2.4rem}
+
+    /* animated checkmark */
+    .modal-check-wrap{display:flex;align-items:center;justify-content:center;margin-bottom:1.8rem}
+    .modal-check{width:72px;height:72px;border-radius:50%;border:2px solid var(--border-gold);background:rgba(201,168,76,.07);display:flex;align-items:center;justify-content:center;position:relative;animation:checkPop .5s cubic-bezier(.22,1,.36,1) .15s both}
+    @keyframes checkPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .modal-check svg{width:32px;height:32px}
+    .modal-check-ring{position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(201,168,76,.2);animation:ringPulse 2s ease-in-out infinite}
+    @keyframes ringPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.1);opacity:.15}}
+
+    .modal-title{font-family:var(--ff-display);font-size:1.8rem;font-weight:700;text-align:center;color:var(--white);margin-bottom:.4rem;line-height:1.15}
+    .modal-title em{color:var(--gold);font-style:italic}
+    .modal-subtitle{font-family:var(--ff-mono);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);text-align:center;margin-bottom:1.6rem}
+
+    .modal-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border-gold),transparent);margin-bottom:1.6rem}
+
+    /* info rows */
+    .modal-info{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.8rem}
+    .modal-info-row{display:flex;align-items:center;gap:.9rem;padding:.75rem 1rem;background:rgba(255,255,255,.025);border:1px solid var(--border);border-radius:var(--r);animation:fadeUp .4s ease both}
+    .modal-info-row:nth-child(1){animation-delay:.25s}
+    .modal-info-row:nth-child(2){animation-delay:.35s}
+    .modal-info-row:nth-child(3){animation-delay:.45s}
+    .modal-info-icon{width:30px;height:30px;border-radius:var(--r-sm);background:var(--gold-dim);border:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+    .modal-info-text{font-size:.83rem;color:var(--muted-light);line-height:1.5}
+    .modal-info-text strong{color:var(--white);font-weight:600;display:block;font-size:.78rem;margin-bottom:.1rem;font-family:var(--ff-mono);letter-spacing:.05em}
+
+    /* countdown */
+    .modal-countdown{text-align:center;margin-bottom:1.8rem;animation:fadeUp .4s ease .5s both}
+    .modal-countdown-label{font-family:var(--ff-mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+    .modal-countdown-bar-wrap{height:3px;background:rgba(255,255,255,.06);border-radius:999px;overflow:hidden}
+    .modal-countdown-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--gold),var(--neon));border-radius:999px;animation:drainBar 24s linear forwards}
+    @keyframes drainBar{from{width:100%}to{width:0%}}
+    .modal-countdown-note{font-family:var(--ff-mono);font-size:.58rem;color:var(--muted);margin-top:.4rem;letter-spacing:.06em}
+
+    /* close button */
+    .modal-close{width:100%;padding:.82rem;background:var(--gold);color:#000;font-family:var(--ff-mono);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:none;border-radius:var(--r-sm);cursor:none;transition:all .25s;animation:fadeUp .4s ease .55s both}
+    .modal-close:hover{background:var(--gold-light);box-shadow:0 10px 30px rgba(201,168,76,.3);transform:translateY(-1px)}
+    .modal-close-x{position:absolute;top:1rem;right:1rem;width:28px;height:28px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;font-size:.75rem;color:var(--muted);transition:all .2s}
+    .modal-close-x:hover{background:rgba(255,255,255,.1);color:var(--white)}
+
     /* RESPONSIVE */
     @media(max-width:1024px){
       nav{padding:1rem 1.5rem}
@@ -277,6 +328,50 @@
 </head>
 <body>
 
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-box">
+      <div class="modal-bar"></div>
+      <button class="modal-close-x" onclick="closeModal()">✕</button>
+      <div class="modal-inner">
+        <div class="modal-check-wrap">
+          <div class="modal-check">
+            <div class="modal-check-ring"></div>
+            <svg viewBox="0 0 32 32" fill="none">
+              <polyline points="6,17 13,24 26,9" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <animate attributeName="stroke-dasharray" from="0,30" to="30,0" dur="0.5s" begin="0.3s" fill="freeze"/>
+              </polyline>
+            </svg>
+          </div>
+        </div>
+        <h2 class="modal-title">Message <em>Received!</em></h2>
+        <p class="modal-subtitle">// Transmission successful</p>
+        <div class="modal-divider"></div>
+        <div class="modal-info">
+          <div class="modal-info-row">
+            <div class="modal-info-icon">⚡</div>
+            <div class="modal-info-text"><strong>Response Time</strong>I'll review your project details and get back to you within 24 hours.</div>
+          </div>
+          <div class="modal-info-row">
+            <div class="modal-info-icon">📬</div>
+            <div class="modal-info-text"><strong>Check Your Inbox</strong>A confirmation has been logged. Watch for my reply at your email.</div>
+          </div>
+          <div class="modal-info-row">
+            <div class="modal-info-icon">🚀</div>
+            <div class="modal-info-text"><strong>What's Next</strong>We'll discuss scope, timeline &amp; budget — then kick off your project.</div>
+          </div>
+        </div>
+        <div class="modal-countdown">
+          <div class="modal-countdown-label">// Auto-closing in 24s</div>
+          <div class="modal-countdown-bar-wrap"><div class="modal-countdown-bar" id="countdownBar"></div></div>
+          <div class="modal-countdown-note">or click below to continue browsing</div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">Continue Browsing →</button>
+      </div>
+    </div>
+  </div>
+
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   <div class="grid-bg"></div>
@@ -293,7 +388,7 @@
       <li><a href="#reviews">Reviews</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="mailto:hamidzahoor2468@gmail.com" class="nav-cta">Hire Me</a>
+    <a href="/cdn-cgi/l/email-protection#422a232f2b2638232a2d2d307076747a02252f232b2e6c212d2f" class="nav-cta">Hire Me</a>
     <button class="hamburger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </nav>
 
@@ -823,9 +918,9 @@
           <h2 class="contact-headline">Ready to Start<br>Your <span class="gold">Project?</span></h2>
           <p class="contact-sub">Whether you need a custom WordPress site, a Shopify store, or a performance-optimized web app — let's talk about how I can help you build something great.</p>
           <div class="contact-links">
-            <a href="mailto:hamidzahoor2468@gmail.com" class="contact-link">
+            <a href="/cdn-cgi/l/email-protection#b9d1d8d4d0ddc3d8d1d6d6cb8b8d8f81f9ded4d8d0d597dad6d4" class="contact-link">
               <div class="contact-link-icon">✉</div>
-              <div><div class="contact-link-label">Email</div><div class="contact-link-value">hamidzahoor2468@gmail.com</div></div>
+              <div><div class="contact-link-label">Email</div><div class="contact-link-value"><span class="__cf_email__" data-cfemail="96fef7fbfff2ecf7fef9f9e4a4a2a0aed6f1fbf7fffab8f5f9fb">[email&#160;protected]</span></div></div>
               <div class="contact-link-arrow">→</div>
             </a>
             <a href="https://linkedin.com/in/hamid-zahoor" target="_blank" class="contact-link">
@@ -872,13 +967,13 @@
   <footer>
     <div class="footer-left">© 2025 Hamid Zahoor — All rights reserved</div>
     <div class="footer-socials">
-      <a href="mailto:hamidzahoor2468@gmail.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#d0b8b1bdb9b4aab1b8bfbfa2e2e4e6e890b7bdb1b9bcfeb3bfbd">Email</a>
       <a href="https://linkedin.com/in/hamid-zahoor" target="_blank">LinkedIn</a>
       <a href="tel:+923083264881">Phone</a>
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // CURSOR
     const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
     let mx=0,my=0,rx=0,ry=0;
@@ -938,15 +1033,17 @@
     document.querySelectorAll('.nav-links a').forEach(l=>l.addEventListener('click',()=>{document.querySelector('.nav-links').style.display='none'}));
 
     // =====================================================
-    // CONTACT FORM → Google Sheets (no-cors fix)
+    // CONTACT FORM → Google Sheets + Gmail notification
     // =====================================================
-    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzrL110JMgRpaft37lGifmtwAQxoIAkstHAs3RGqaBLj7BsUs3dGKUy8k18480hhJ04/exec';
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwY8jULezJgjrQLrT3n4gO2SzC0mIScJ5I-Br4-6NeRhILPajId8zjSE6xKtsfFiYJh/exec';
+
+    let autoCloseTimer = null;
 
     async function submitForm() {
-      const fname   = document.getElementById('fname').value.trim();
-      const lname   = document.getElementById('lname').value.trim();
-      const femail  = document.getElementById('femail').value.trim();
-      const fmessage= document.getElementById('fmessage').value.trim();
+      const fname    = document.getElementById('fname').value.trim();
+      const lname    = document.getElementById('lname').value.trim();
+      const femail   = document.getElementById('femail').value.trim();
+      const fmessage = document.getElementById('fmessage').value.trim();
 
       if (!fname || !femail || !fmessage) {
         alert('Please fill in the required fields (First Name, Email, and Project Details).');
@@ -967,27 +1064,52 @@
       };
 
       try {
-        // Using no-cors — request goes through but response is opaque.
-        // Google Sheets will still receive and save the data.
         await fetch(SHEET_URL, {
           method: 'POST',
           mode:   'no-cors',
           headers: { 'Content-Type': 'text/plain' },
           body:   JSON.stringify(data)
         });
-
-        // With no-cors we can't read the response status,
-        // so we optimistically show success after the fetch resolves.
-        document.getElementById('contactForm').style.display = 'none';
-        document.getElementById('formSuccess').style.display  = 'block';
-
+        showModal();
+        // Reset form fields
+        document.getElementById('fname').value = '';
+        document.getElementById('lname').value = '';
+        document.getElementById('femail').value = '';
+        document.getElementById('fservice').value = '';
+        document.getElementById('fbudget').value = '';
+        document.getElementById('fmessage').value = '';
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
       } catch (error) {
-        console.error('Form submission error:', error);
-        alert('Sorry, there was an error sending your message. Please email me directly at hamidzahoor2468@gmail.com');
+        console.error('Form error:', error);
+        alert('Sorry, there was an error. Please email me directly at hamidzahoor2468@gmail.com');
         btn.textContent = 'Send Message →';
         btn.disabled = false;
       }
     }
+
+    function showModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      // Re-trigger countdown bar animation
+      const bar = document.getElementById('countdownBar');
+      bar.style.animation = 'none';
+      bar.offsetHeight; // reflow
+      bar.style.animation = '';
+      // Auto-close after 24s
+      autoCloseTimer = setTimeout(closeModal, 24000);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      if (autoCloseTimer) { clearTimeout(autoCloseTimer); autoCloseTimer = null; }
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
   </script>
 
 </body>
