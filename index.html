@@ -441,7 +441,7 @@
       #stats{padding:2rem 1.5rem}
       .stack-grid{grid-template-columns:repeat(2,1fr)}
       /* On mobile, about column becomes single col and photo is NOT sticky */
-      .about-grid{grid-template-columns:1fr;gap:2.5rem}
+      .about-grid{display: flex; flex-direction: column;}
       .about-photo-col{position:static}
       .about-photo-frame{max-width:100%;width:100%}
       .about-photo-frame img{aspect-ratio:4/3}
