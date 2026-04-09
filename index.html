@@ -95,23 +95,24 @@
     section { position: relative; z-index: 2; }
 
     /* ═══ NAV ═══ */
-    nav {
-      max-width: var(--max-w);
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 2rem;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(24px);
-      background: rgba(6,5,8,0.90);
-      transition: all 0.35s ease;
-      margin: auto;
-    }
+   nav {
+    max-width: var(--max-w);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 2rem;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(24px);
+    background: rgba(6, 5, 8, 0.90);
+    transition: all 0.35s ease;
+    margin: 20px auto;
+    border-radius: 100px;
+}
 nav.scrolled {
     margin-top: 14px;
     padding: 0.8rem 1.8rem;
